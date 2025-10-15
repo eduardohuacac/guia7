@@ -7,10 +7,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -41,7 +38,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controllerDNI = TextEditingController();
   final TextEditingController _controllerNombre = TextEditingController();
-  
+
   late Future<List> listaUsuarios;
 
   @override
@@ -53,20 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Firebase"),
-      ),
+      appBar: AppBar(title: const Text("Firebase")),
       body: FutureBuilder<List>(
         future: listaUsuarios,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return const Center(
-              child: Text("Error al cargar usuarios"),
-            );
+            return const Center(child: Text("Error al cargar usuarios"));
           } else if (snapshot.hasData) {
             return ListView.separated(
               itemCount: snapshot.data!.length,
@@ -80,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text(nombre),
                   subtitle: Text("DNI: $dni"),
                   trailing: Row(
-                    mainAxisSize: MainAxisSize.min, // Importante para que no ocupe mucho espacio
+                    mainAxisSize: MainAxisSize
+                        .min, // Importante para que no ocupe mucho espacio
                     children: [
                       // ÍCONO DE EDICIÓN (LÁPIZ)
                       IconButton(
@@ -106,9 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             );
           } else {
-            return const Center(
-              child: Text("No se encontraron usuarios."),
-            );
+            return const Center(child: Text("No se encontraron usuarios."));
           }
         },
       ),
@@ -160,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               child: const Text("Guardar"),
-            )
+            ),
           ],
         );
       },
@@ -180,7 +170,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _showEditDialog(String uid, String dni, String currentNombre) {
-    TextEditingController _nombreController = TextEditingController(text: currentNombre);
+    TextEditingController _nombreController = TextEditingController(
+      text: currentNombre,
+    );
     TextEditingController _dniController = TextEditingController(text: dni);
 
     showDialog(
